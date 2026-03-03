@@ -1,13 +1,11 @@
 package dev.expert.lang;
 
-import java.lang.reflect.Type;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 /**
  * A small persistent map that keeps insertion order and is safe for covariance via mapping operations.
@@ -42,41 +40,23 @@ public final class TupleMap<K, V> {
     }
 
     public TupleMap<K, V> put(K key, V value) {
-        var newMap = copy(backing);
-        newMap.put(key, value);
-        return new TupleMap<>(newMap);
+        throw new UnsupportedOperationException("TODO: implement persistent put");
     }
 
     public TupleMap<K, V> remove(K key) {
-        var newMap = copy(backing);
-        newMap.remove(key);
-        return new TupleMap<>(newMap);
+        throw new UnsupportedOperationException("TODO: implement persistent remove");
     }
 
     public TupleMap<K, V> filterKeys(Predicate<? super K> predicate) {
-        var newMap = new LinkedHashMap<K, V>();
-        for(var e : backing.keySet()) {
-            if (predicate.test(e)) {
-                newMap.put(e, backing.get(e));
-            }
-        }
-        return new TupleMap<>(newMap);
+        throw new UnsupportedOperationException("TODO: implement filterKeys");
     }
 
     public <K2> TupleMap<K2, V> mapKeys(Function<? super K, ? extends K2> mapper) {
-        var newMap = new LinkedHashMap<K2, V>();
-        for(var e : backing.entrySet()) {
-           newMap.put(mapper.apply(e.getKey()), e.getValue());
-        }
-        return new TupleMap<>(newMap);
+        throw new UnsupportedOperationException("TODO: implement mapKeys");
     }
 
     public <V2> TupleMap<K, V2> mapValues(Function<? super V, ? extends V2> mapper) {
-        var newMap = new LinkedHashMap<K, V2>();
-        for(var e : backing.entrySet()) {
-            newMap.put(e.getKey(), mapper.apply(e.getValue()));
-        }
-        return new TupleMap<>(newMap);
+        throw new UnsupportedOperationException("TODO: implement mapValues");
     }
 
     private static <K, V> Map<K, V> copy(Map<K, V> source) {

@@ -17,17 +17,7 @@ public class SynchronizedRateLimiter implements RateLimiter {
 
     @Override
     public synchronized boolean tryAcquire() {
-        var now = System.nanoTime();
-        var window = 1_000_000_000L;
-        while(!timestamps.isEmpty() && now - timestamps.peekFirst() >= window) {
-            timestamps.removeFirst();
-        }
-
-        if (timestamps.size() < permitsPerSecond) {
-            timestamps.addLast(now);
-            return true;
-        }
-        return false;
+        throw new UnsupportedOperationException("TODO: implement synchronized token bucket");
     }
 
     @Override

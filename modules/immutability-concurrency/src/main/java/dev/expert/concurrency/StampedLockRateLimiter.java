@@ -18,17 +18,7 @@ public class StampedLockRateLimiter implements RateLimiter {
 
     @Override
     public boolean tryAcquire() {
-        var now = System.nanoTime();
-        var window = (long)10e9;
-        var stamp = lock.tryOptimisticRead();
-        if (stamp != 0L) {
-            prune(now, window, stamp);
-            if (timestamps.size() < permitsPerSecond) {
-                timestamps.addLast(now);
-                return true;
-            }
-        }
-        return false;
+        throw new UnsupportedOperationException("TODO: implement stamped lock variant");
     }
 
     private void prune(long now, long window, long stamp) {

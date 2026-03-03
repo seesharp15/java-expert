@@ -14,31 +14,7 @@ public final class RacingTasks {
      * Implement twice: (a) using classic executors, (b) optionally using virtual threads if enabled.
      */
     public static <T> T firstOf(List<Supplier<T>> suppliers, Duration timeout) {
-        var executor = defaultExecutor();
-        var service = new ExecutorCompletionService<T>(executor);
-        var futures = new ArrayList<Future<T>>();
-
-        for(var supplier: suppliers) {
-            futures.add(service.submit(supplier::get));
-        }
-
-        try {
-            var f = service.poll(timeout.toMillis(), TimeUnit.MILLISECONDS);
-            if (f == null) throw new TimeoutException();
-            T result = f.get();
-            for(var other : futures) {
-                if (other != f) {
-                    other.cancel(true);
-                }
-            }
-            return result;
-        }
-        catch(Exception e) {
-            throw new RuntimeException(e);
-        }
-        finally{
-            executor.shutdownNow();
-        }
+        throw new UnsupportedOperationException("TODO: implement racing task helper");
     }
 
     public static ExecutorService defaultExecutor() {

@@ -1,101 +1,30 @@
 package dev.expert.lang;
 
-import java.sql.Array;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.function.Function;
 
 public final class ExprEvaluator {
     private ExprEvaluator() {}
 
     public static int eval(Expr expr) {
-        return switch (expr) {
-            case Lit lit -> lit.value();
-            case Add add -> eval(add.left()) + eval(add.right());
-            case Negate negate -> eval(negate.inner()) * -1;
-            case null -> throw new IllegalArgumentException("ExprEvaluator.eval: null expressions are not supported Expr Type: " + Objects.toIdentityString(expr));
-            default -> throw new IllegalArgumentException("ExprEvaluator.eval: Unsupported Expr Type: " + Objects.toIdentityString(expr));
-            };
-
-
+        throw new UnsupportedOperationException("TODO: implement eval with pattern matching");
     }
 
     public static String pretty(Expr expr) {
-        String ret;
-        switch (expr) {
-            case Lit lit -> ret = String.valueOf(lit.value());
-            case Negate negate -> {
-                var raw = eval(negate);
-                ret = raw <= 0 ? String.format("-(%s)", Math.abs(raw)) : String.valueOf(raw);
-            }
-            case Add add -> {
-                var left = pretty(add.left());
-                var right = pretty(add.right());
-                ret = String.format("(%s + %s)", left, right);
-            }
-            default -> throw new UnsupportedOperationException();
-        };
-        return ret;
+        throw new UnsupportedOperationException("TODO: implement pretty printing");
     }
 
     public static <R> R fold(Expr expr, Function<Lit, R> onLit, java.util.function.BiFunction<R, R, R> onAdd, Function<R, R> onNeg) {
-        switch (expr) {
-            case Lit lit -> {
-                return onLit.apply(lit);
-            }
-            case Add add -> {
-                var left = fold(add.left(), onLit, onAdd, onNeg);
-                var right = fold(add.right(), onLit, onAdd, onNeg);
-                return onAdd.apply(left, right);
-            }
-            case Negate neg -> {
-                var val = fold(neg.inner(), onLit, onAdd, onNeg);
-                return onNeg.apply(val);
-            }
-            default -> throw new IllegalArgumentException();
-        }
-
+        throw new UnsupportedOperationException("TODO: implement fold");
     }
 
     public static Expr simplify(Expr expr) {
-        switch(expr) {
-            case Lit lit -> {
-                return new Lit(eval(lit));
-            }
-            case Add add -> {
-                var left = eval(add.left()); //simplify(add.left());
-                var right = eval(add.right()); //simplify(add.right());
-                return new Add(new Lit(left), new Lit(right));
-            }
-            case Negate negate -> {
-                var value = eval(negate);
-                return new Lit(value);
-            }
-            default -> throw new IllegalArgumentException();
-        }
+        throw new UnsupportedOperationException("TODO: implement simplify rules");
     }
 
     public static List<Integer> collectLiterals(Expr expr) {
-
-        switch(expr) {
-            case Lit lit -> {
-                return List.of(lit.value());
-            }
-            case Add add -> {
-                var left = collectLiterals(add.left());
-                var right = collectLiterals(add.right());
-                List<Integer> newList = new ArrayList<>();
-                newList.addAll(left);
-                newList.addAll(right);
-                return newList;
-            }
-            case Negate negate -> {
-                return collectLiterals(negate.inner());
-            }
-            default -> throw new IllegalArgumentException();
-        }
-     }
+        throw new UnsupportedOperationException("TODO: implement traversal collecting literal values");
+    }
 }
 
 

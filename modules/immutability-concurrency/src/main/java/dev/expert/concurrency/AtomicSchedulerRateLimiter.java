@@ -18,19 +18,13 @@ public class AtomicSchedulerRateLimiter implements RateLimiter {
         this.permitsPerSecond = permitsPerSecond;
         permits.add(permitsPerSecond);
         scheduler.scheduleAtFixedRate(() -> {
-            permits.reset();
-            permits.add(permitsPerSecond);
+            // TODO refill logic
         }, 1,1, TimeUnit.SECONDS);
     }
 
     @Override
     public boolean tryAcquire() {
-        while(true) {
-            var current = permits.sum();
-            if (current <= 0) return false;
-            permits.decrement();
-            return true;
-        }
+        throw new UnsupportedOperationException("TODO: implement atomic scheduler limiter");
     }
 
     @Override
