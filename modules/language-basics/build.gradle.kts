@@ -1,0 +1,7 @@
+plugins {
+    java
+}
+
+dependencies {
+    testImplementation("org.junit.jupiter:junit-jupiter-params")
+}

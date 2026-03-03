@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="dev.expert.lang.ExprEvaluatorTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-02-27T22:00:11.760Z" hostname="Brians-MacBook-Pro.internal" time="0.045">
+  <properties/>
+  <testcase name="evaluatesNestedExpression()" classname="dev.expert.lang.ExprEvaluatorTest" time="0.036"/>
+  <testcase name="simplifiesDoubleNegationAndZeroes()" classname="dev.expert.lang.ExprEvaluatorTest" time="0.002"/>
+  <testcase name="collectsLiteralsInPreOrder()" classname="dev.expert.lang.ExprEvaluatorTest" time="0.005"/>
+  <testcase name="foldAllowsCustomAggregation()" classname="dev.expert.lang.ExprEvaluatorTest" time="0.001"/>
+  <testcase name="prettyPrintsExpression()" classname="dev.expert.lang.ExprEvaluatorTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
