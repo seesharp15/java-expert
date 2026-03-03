@@ -78,6 +78,10 @@ public final class LengthPrefixedProtocol {
 /*
 ANSWER KEY:
 
+ * Problem: define a tiny length-prefixed framing protocol over byte streams.
+ * Approach: DataOutputStream/DataInputStream with 4-byte big-endian length + UTF-8 payload.
+ * Why: avoids partial read confusion; good practice for simple TCP protocols.
+
 public static void writeFrame(OutputStream out, String payload) throws IOException {
     byte[] bytes = payload.getBytes(StandardCharsets.UTF_8);
     DataOutputStream dos = new DataOutputStream(out);

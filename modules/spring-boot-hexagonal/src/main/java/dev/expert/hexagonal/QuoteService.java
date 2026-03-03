@@ -89,6 +89,10 @@ public class QuoteService {
 /*
 ANSWER KEY:
 
+ * Problem: validate input and create a new Quote.
+ * Approach: guard clauses for blanks, then delegate to repository (which bumps version).
+ * Why: keeps service thin and pure; validation lives at the edge.
+
 @Transactional
 public Quote create(String author, String body) {
     if (author == null || author.isBlank()) throw new IllegalArgumentException("author required");

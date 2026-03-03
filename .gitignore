@@ -1,0 +1,28 @@
+# Gradle
+.gradle/
+build/
+**/build/
+!gradle/wrapper/**
+
+# IntelliJ / IDEA
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+
+# VS Code
+.vscode/
+
+# MacOS
+.DS_Store
+
+# Logs
+*.log
+
+# Coverage / reports
+**/reports/
+**/jacoco*
+
+# Generated
+bin/

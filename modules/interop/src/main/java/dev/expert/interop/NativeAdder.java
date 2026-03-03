@@ -73,6 +73,10 @@ public class NativeAdder {
 /*
 ANSWER KEY:
 
+ * Problem: expose native sum implementation if available.
+ * Approach: attempt to load JNI library; fall back silently in test environments.
+ * Why: lets pure-Java sum continue working when native lib missing.
+
 static {
     try {
         System.loadLibrary("nativeadder");

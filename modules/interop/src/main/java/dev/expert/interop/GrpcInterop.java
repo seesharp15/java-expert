@@ -73,6 +73,10 @@ public class GrpcInterop {
 /*
 ANSWER KEY (skeletal):
 
+ * Problem: build a gRPC client helper to connect and call an echo service.
+ * Approach: plain-text ManagedChannel builder; stub call returns echoed message.
+ * Why: minimal example of Java↔Scala gRPC interop.
+
 public static ManagedChannel channelFor(String host, int port) {
     return ManagedChannelBuilder.forAddress(host, port)
         .usePlaintext()

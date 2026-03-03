@@ -11,13 +11,40 @@ public class StampedLockRateLimiter implements RateLimiter {
     private final StampedLock lock = new StampedLock();
 
     public StampedLockRateLimiter(int permitsPerSecond) {
+
         this.permitsPerSecond = permitsPerSecond;
+
     }
 
     @Override
     public boolean tryAcquire() {
-        throw new UnsupportedOperationException("TODO: implement stamped lock variant");
+        var now = System.nanoTime();
+        var window = (long)10e9;
+        var stamp = lock.tryOptimisticRead();
+        if (stamp != 0L) {
+            prune(now, window, stamp);
+            if (timestamps.size() < permitsPerSecond) {
+                timestamps.addLast(now);
+                return true;
+            }
+        }
+        return false;
     }
+
+    private void prune(long now, long window, long stamp) {
+        while(!timestamps.isEmpty()) {
+            var first = timestamps.peekFirst();
+            if (first == null || now - first < window) {
+                break;
+            }
+            if (!lock.validate(stamp)) {
+                return;
+            }
+            timestamps.removeFirst();
+
+        }
+    }
+
 
     @Override
     public void close() {
@@ -25,64 +52,12 @@ public class StampedLockRateLimiter implements RateLimiter {
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
 ANSWER KEY:
+
+ * Problem: same token-bucket limiter but with finer-grained StampedLock.
+ * Approach: optimistic read to prune cheap, escalate to write lock to mutate.
+ * Why: demonstrates lock upgrades and optimistic validation.
 
 @Override
 public boolean tryAcquire() {

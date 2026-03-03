@@ -78,6 +78,10 @@ public final class ParallelPitfall {
 /*
 ANSWER KEY:
 
+ * Problem: parallel forEach on ArrayList is racy; elements get lost.
+ * Approach: collect into a thread-safe container (CopyOnWriteArrayList).
+ * Why: demonstrates fixing stateful parallel stream hazards.
+
 public static List<Integer> fixedParallelCollect(int n) {
     return java.util.stream.IntStream.range(0, n)
         .parallel()

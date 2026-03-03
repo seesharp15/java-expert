@@ -86,6 +86,10 @@ public class ReactiveKafkaBridge<K, V> {
 /*
 ANSWER KEY (simplified backpressure-aware approach):
 
+ * Problem: bridge Kafka client APIs to Reactor Flux with backpressure.
+ * Approach: poll in a generator for consuming; wrap async producer send in Flux.create.
+ * Why: shows reactive wrappers over callback/poll APIs.
+
 public Flux<ConsumerRecord<K, V>> consumeReactive(Collection<String> topics) {
     consumer.subscribe(topics);
     return Flux.generate(sink -> {

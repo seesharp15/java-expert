@@ -73,6 +73,10 @@ public final class WindowedStream {
 /*
 ANSWER KEY:
 
+ * Problem: produce sliding/stepped windows over a stream.
+ * Approach: materialize the stream to a list, then emit sublists size/step apart.
+ * Why: simple, deterministic ordering; fine for learning, not optimal for huge streams.
+
 public static <T> Stream<List<T>> windowed(Stream<T> source, int size, int step) {
     java.util.List<T> data = source.toList();
     java.util.List<List<T>> windows = new java.util.ArrayList<>();

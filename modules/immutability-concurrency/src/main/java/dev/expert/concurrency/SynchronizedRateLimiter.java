@@ -17,7 +17,17 @@ public class SynchronizedRateLimiter implements RateLimiter {
 
     @Override
     public synchronized boolean tryAcquire() {
-        throw new UnsupportedOperationException("TODO: implement synchronized token bucket");
+        var now = System.nanoTime();
+        var window = 1_000_000_000L;
+        while(!timestamps.isEmpty() && now - timestamps.peekFirst() >= window) {
+            timestamps.removeFirst();
+        }
+
+        if (timestamps.size() < permitsPerSecond) {
+            timestamps.addLast(now);
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -29,61 +39,12 @@ public class SynchronizedRateLimiter implements RateLimiter {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
 ANSWER KEY:
+
+ * Problem: rate-limit calls to N per second using basic locking.
+ * Approach: token bucket implemented as timestamp deque; prune stale entries then grant if under capacity.
+ * Why: shows baseline thread-safe limiter with intrinsic lock.
 
 @Override
 public synchronized boolean tryAcquire() {

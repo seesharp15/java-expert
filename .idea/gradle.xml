@@ -12,6 +12,7 @@
             <option value="$PROJECT_DIR$/modules" />
             <option value="$PROJECT_DIR$/modules/immutability-concurrency" />
             <option value="$PROJECT_DIR$/modules/interop" />
+            <option value="$PROJECT_DIR$/modules/interview-prep" />
             <option value="$PROJECT_DIR$/modules/io-serde" />
             <option value="$PROJECT_DIR$/modules/kafka-reactive" />
             <option value="$PROJECT_DIR$/modules/language-basics" />

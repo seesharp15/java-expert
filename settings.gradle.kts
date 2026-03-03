@@ -17,3 +17,4 @@ include(
 )
 
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+include("modules:interview-prep")

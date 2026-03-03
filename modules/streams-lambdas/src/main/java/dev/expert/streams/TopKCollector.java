@@ -71,6 +71,10 @@ public final class TopKCollector {
 /*
 ANSWER KEY:
 
+ * Problem: collect only the top K elements according to a comparator.
+ * Approach: keep a min-heap of size K; evict smallest; sort descending at finish.
+ * Why: efficient O(n log k) collector, stable order via final sort.
+
 public static <T> Collector<T, ?, List<T>> topK(int k, Comparator<? super T> comparator) {
     return Collector.of(
         () -> new java.util.PriorityQueue<T>(k, comparator),

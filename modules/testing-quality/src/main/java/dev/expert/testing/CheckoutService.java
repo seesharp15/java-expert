@@ -95,6 +95,10 @@ public class CheckoutService {
 /*
 ANSWER KEY:
 
+ * Problem: compute cart total, charge gateway, return receipt.
+ * Approach: stream sum of qty * unit price; delegate to PaymentGateway.
+ * Why: straightforward service logic for Mockito/property tests.
+
 public Receipt purchase(Cart cart) {
     int total = cart.items().stream()
         .mapToInt(i -> i.quantity() * i.unitPriceCents())

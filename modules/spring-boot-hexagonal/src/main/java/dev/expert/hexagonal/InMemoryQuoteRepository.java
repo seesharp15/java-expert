@@ -83,6 +83,10 @@ public class InMemoryQuoteRepository implements QuoteRepository {
 /*
 ANSWER KEY:
 
+ * Problem: persist Quote with optimistic locking in-memory.
+ * Approach: check version match, then store a new instance with version+1.
+ * Why: mirrors JPA optimistic locking semantics without a database.
+
 @Override
 public Quote save(Quote quote) {
     Quote existing = store.get(quote.id());

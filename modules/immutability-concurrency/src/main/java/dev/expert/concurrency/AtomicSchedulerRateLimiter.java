@@ -42,6 +42,10 @@ public class AtomicSchedulerRateLimiter implements RateLimiter {
 /*
 ANSWER KEY:
 
+ * Problem: limiter suited for high contention without locking.
+ * Approach: LongAdder counts available permits; scheduled task resets bucket every second.
+ * Why: illustrates atomics + scheduled executor pattern (Loom friendly).
+
 public AtomicSchedulerRateLimiter(int permitsPerSecond) {
     this.permitsPerSecond = permitsPerSecond;
     permits.add(permitsPerSecond);

@@ -82,6 +82,10 @@ public class JooqRepository {
 /*
 ANSWER KEY (conceptual, assumes updatable records):
 
+ * Problem: jOOQ-style optimistic locking with a version column.
+ * Approach: insert sets version to 0; update increments version and checks previous value.
+ * Why: prevents lost updates in concurrent writers.
+
 public <R extends Record> R insertWithVersion(R record, TableField<R, Integer> versionField) {
     record.set(versionField, 0);
     return dsl.insertInto(record.getTable())

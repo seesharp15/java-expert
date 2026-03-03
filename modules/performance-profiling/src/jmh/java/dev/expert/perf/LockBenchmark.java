@@ -95,5 +95,5 @@ public class LockBenchmark {
 
 /*
 ANSWER KEY:
-// No additional logic; JMH benchmark already complete.
+ * Nothing hidden here—the benchmark simply exercises the three limiter variants.
 */

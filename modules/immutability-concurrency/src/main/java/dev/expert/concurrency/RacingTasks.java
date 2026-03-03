@@ -50,6 +50,10 @@ public final class RacingTasks {
 /*
 ANSWER KEY:
 
+ * Problem: run many suppliers and return the first successful result within a timeout.
+ * Approach: ExecutorCompletionService + cancellation of losers; close executor afterward.
+ * Why: demonstrates structured-ish concurrency with classic executors.
+
 public static <T> T firstOf(List<Supplier<T>> suppliers, Duration timeout) {
     ExecutorService exec = defaultExecutor();
     var service = new java.util.concurrent.ExecutorCompletionService<T>(exec);

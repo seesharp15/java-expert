@@ -94,6 +94,10 @@ public final class AnimalSerde {
 /*
 ANSWER KEY:
 
+ * Problem: polymorphic JSON for sealed Animal hierarchy.
+ * Approach: Jackson @JsonTypeInfo with type property; delegate to ObjectMapper.
+ * Why: demonstrates record + sealed + Jackson subtype config.
+
 public static String toJson(Animal animal) throws IOException {
     return mapper.writeValueAsString(animal);
 }
