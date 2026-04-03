@@ -1,13 +1,30 @@
 package dev.expert.interview;
 
+
+import dev.expert.interview.LRUCache.CustomLruCache7;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.*;
 
 class LruCacheTest {
 
     @Test
+    void ensureSetupCorrect() {
+        var cache = new CustomLruCache7(2);
+
+        cache.put(1, 1);
+        cache.put(2, 2);
+
+        assertThat(cache.get(2)).isEqualTo(2);
+        assertThat(cache.get(1)).isEqualTo(1);
+
+        cache.put(3, 3);
+
+        assertThat(cache.get(2)).isEqualTo(-1);
+    }
+
+    @Test
     void evictsLeastRecentlyUsed() {
-        LruCache cache = new LruCache(2);
+        var cache = new CustomLruCache7(2);
         cache.put(1, 1);
         cache.put(2, 2);
         assertThat(cache.get(1)).isEqualTo(1); // 1 is MRU now
@@ -21,7 +38,7 @@ class LruCacheTest {
 
     @Test
     void updatesExistingKeyAndMovesToMru() {
-        LruCache cache = new LruCache(2);
+        var cache = new CustomLruCache7(2);
         cache.put(1, 10);
         cache.put(2, 20);
         cache.put(1, 11);
