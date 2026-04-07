@@ -274,13 +274,11 @@ public class QuizApp {
         System.out.println(SEPARATOR);
 
         for (int i = 0; i < total; i++) {
+            clearScreen();
             Question q = selected.get(i);
             ShuffledChoices shuffled = shuffleChoices(q);
 
-            System.out.println("\n" + SEPARATOR);
-            System.out.printf("  Question %d of %d%n", i + 1, total);
-            System.out.println(SEPARATOR);
-            System.out.println();
+            printQuestionHeader("TEST", i, total, correct, q);
             System.out.println(q.getQuestionText());
             printChoices(shuffled.displayChoices());
 
@@ -354,13 +352,11 @@ public class QuizApp {
         System.out.println(SEPARATOR);
 
         for (int i = 0; i < total; i++) {
+            clearScreen();
             Question q = selected.get(i);
             ShuffledChoices shuffled = shuffleChoices(q);
 
-            System.out.println("\n" + SEPARATOR);
-            System.out.printf("Question %d of %d\t[%s]%n", i + 1, total, categoryLabel(q));
-            System.out.println(SEPARATOR);
-            System.out.println();
+            printQuestionHeader("STUDY", i, total, correct, q);
             System.out.println(q.getQuestionText());
             printChoices(shuffled.displayChoices());
 
@@ -389,6 +385,8 @@ public class QuizApp {
                 System.out.println();
                 System.out.println("  Explanation:");
                 System.out.println(q.getExplanation());
+                System.out.print("\n  Press Enter to continue...");
+                scanner.nextLine();
             }
 
         }
@@ -474,6 +472,21 @@ public class QuizApp {
         if (parts.length == 0) return "GENERAL";
         if (parts.length == 1) return parts[0].toUpperCase();
         return (parts[0] + "/" + parts[1]).toUpperCase();
+    }
+
+    private void clearScreen() {
+        System.out.print("\u001b[H\u001b[2J");
+        System.out.flush();
+    }
+
+    private void printQuestionHeader(String mode, int answeredSoFar, int total, int correctSoFar, Question q) {
+        double accuracy = (answeredSoFar == 0) ? 0.0 : (correctSoFar * 100.0 / answeredSoFar);
+        System.out.println(SEPARATOR);
+        System.out.printf("  %s MODE | Question %d of %d | Answered: %d | Correct: %d (%.1f%%)%n",
+                mode, answeredSoFar + 1, total, answeredSoFar, correctSoFar, accuracy);
+        System.out.printf("  Category: %s%n", categoryLabel(q));
+        System.out.println(SEPARATOR);
+        System.out.println();
     }
 
     private void printBanner() {
