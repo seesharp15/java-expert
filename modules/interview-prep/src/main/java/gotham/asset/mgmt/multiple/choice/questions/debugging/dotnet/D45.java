@@ -35,7 +35,7 @@ What is returned?
     @Override
     public String getExplanation() {
         return """
-Multiplication overflows 32-bit int; result wraps to two's complement value. (unless checked context, which this snippet is not).
+Multiplication overflows 32-bit int; result wraps to two's complement value. (unless checked context).
 """;
     }
 }

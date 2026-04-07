@@ -9,7 +9,7 @@ public class D38 extends Question {
     public String getQuestionText() {
         return """
 Lines 1-5:
-1  int total = 80;
+1  int total = 81;
 2  int count = 2;
 3  double avg = total / count;
 4  return avg;
@@ -21,7 +21,7 @@ What value is returned?
     public List<String> getChoices() {
         return List.of(
                 "40.0",
-                "40.0",
+                "40.5",
                 "0.0",
                 "Compilation error: must cast"
         );
@@ -35,7 +35,7 @@ What value is returned?
     @Override
     public String getExplanation() {
         return """
-Both operands are int so division truncates before widening to double; {total}//{count} = {trunc}, returned as {trunc}.0
+Both operands are int so division truncates before widening to double; result is 40.0.
 """;
     }
 }
