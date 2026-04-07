@@ -1,0 +1,39 @@
+package gotham.asset.mgmt.multiple.choice.questions.debugging.dotnet;
+
+import gotham.asset.mgmt.multiple.choice.questions.Question;
+import java.util.*;
+
+public class D33 extends Question {
+
+    @Override
+    public String getQuestionText() {
+        return """
+NaN comparison trap:
+1  double v = double.NaN;
+2  if (v == double.NaN) return 1; else return 2;
+What is returned?
+""";
+    }
+
+    @Override
+    public List<String> getChoices() {
+        return List.of(
+                "1",
+                "2",
+                "Throws",
+                "Compilation error"
+        );
+    }
+
+    @Override
+    public int getCorrectAnswerIndex() {
+        return 1;
+    }
+
+    @Override
+    public String getExplanation() {
+        return """
+NaN is not equal to itself; comparison is false so the else branch returns 2.
+""";
+    }
+}
