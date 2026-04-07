@@ -481,9 +481,10 @@ public class QuizApp {
 
     private void printQuestionHeader(String mode, int answeredSoFar, int total, int correctSoFar, Question q) {
         double accuracy = (answeredSoFar == 0) ? 0.0 : (correctSoFar * 100.0 / answeredSoFar);
+        double progress = (total == 0) ? 0.0 : (answeredSoFar * 100.0 / total);
         System.out.println(SEPARATOR);
-        System.out.printf("  %s MODE | Question %d of %d | Answered: %d | Correct: %d (%.1f%%)%n",
-                mode, answeredSoFar + 1, total, answeredSoFar, correctSoFar, accuracy);
+        System.out.printf("  %s MODE | Question %d of %d | Progress: %.1f%% | Correct: %d/%d (%.1f%%)%n",
+                mode, answeredSoFar + 1, total, progress, correctSoFar, answeredSoFar, accuracy);
         System.out.printf("  Category: %s%n", categoryLabel(q));
         System.out.println(SEPARATOR);
         System.out.println();
