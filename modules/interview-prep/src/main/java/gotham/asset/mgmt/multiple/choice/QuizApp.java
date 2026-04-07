@@ -82,6 +82,9 @@ public class QuizApp {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         QuizApp app = new QuizApp(scanner);
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            System.out.println("\nInterrupted, exiting.");
+        }));
         app.run();
         scanner.close();
     }
@@ -101,7 +104,12 @@ public class QuizApp {
             System.out.println(SEPARATOR);
             System.out.print("> ");
 
-            String input = scanner.nextLine().trim().toLowerCase();
+            String rawInput = safeReadLine();
+            if (rawInput == null) {
+                System.out.println("\nInput closed. Exiting.");
+                break;
+            }
+            String input = rawInput.trim().toLowerCase();
             switch (input) {
                 case "test"  -> runTestMode(selectQuestions());
                 case "study" -> runStudyMode(selectQuestions());
@@ -198,7 +206,11 @@ public class QuizApp {
         opts.sort(String::compareTo);
         System.out.println("\n  " + label + "? (" + String.join(" / ", opts) + " / all)");
         System.out.print("  > ");
-        String input = scanner.nextLine().trim().toLowerCase();
+        String raw = safeReadLine();
+        if (raw == null) {
+            return "all";
+        }
+        String input = raw.trim().toLowerCase();
         if (input.isEmpty()) return "all";
         if (input.equals("all") || options.contains(input)) return input;
         System.out.println("  Unknown choice '" + input + "', using 'all'.");
@@ -221,7 +233,12 @@ public class QuizApp {
             return 0;
         }
         System.out.printf("  How many questions? (1-%d, Enter for all): ", max);
-        String raw = scanner.nextLine().trim();
+        String rawLine = safeReadLine();
+        if (rawLine == null) {
+            System.out.println("\nInput closed. Exiting.");
+            return 0;
+        }
+        String raw = rawLine.trim();
         if (raw.isEmpty()) {
             return max;
         }
@@ -268,11 +285,6 @@ public class QuizApp {
 
         List<MissedQuestion> missed = new ArrayList<>();
 
-        System.out.println("\n" + SEPARATOR);
-        System.out.println("  TEST MODE  --  " + total + " questions");
-        System.out.println("  Answer all questions. Results shown at the end.");
-        System.out.println(SEPARATOR);
-
         for (int i = 0; i < total; i++) {
             clearScreen();
             Question q = selected.get(i);
@@ -283,6 +295,10 @@ public class QuizApp {
             printChoices(shuffled.displayChoices());
 
             int selectedIndex = readAnswerIndex(shuffled.displayChoices().size());
+            if (selectedIndex < 0) {
+                System.out.println("\nInput closed. Exiting.");
+                break;
+            }
             int correctIndex = shuffled.shuffledCorrectIndex();
 
             if (selectedIndex == correctIndex) {
@@ -321,7 +337,12 @@ public class QuizApp {
 
             System.out.println(THIN_SEPARATOR);
             System.out.print("  Show detailed explanations for missed questions? (y/n): ");
-            String choice = scanner.nextLine().trim().toLowerCase();
+            String choiceRaw = safeReadLine();
+            if (choiceRaw == null) {
+                System.out.println("\nInput closed. Exiting.");
+                return;
+            }
+            String choice = choiceRaw.trim().toLowerCase();
             if (choice.equals("y") || choice.equals("yes")) {
                 for (var m : missed) {
                     System.out.println("\n" + THIN_SEPARATOR);
@@ -346,11 +367,6 @@ public class QuizApp {
         int total = selected.size();
         int correct = 0;
 
-        System.out.println("\n" + SEPARATOR);
-        System.out.println("  STUDY MODE  --  " + total + " questions");
-        System.out.println("  You will receive feedback after each question.");
-        System.out.println(SEPARATOR);
-
         for (int i = 0; i < total; i++) {
             clearScreen();
             Question q = selected.get(i);
@@ -361,6 +377,10 @@ public class QuizApp {
             printChoices(shuffled.displayChoices());
 
             int selectedIndex = readAnswerIndex(shuffled.displayChoices().size());
+            if (selectedIndex < 0) {
+                System.out.println("\nInput closed. Exiting.");
+                break;
+            }
             int correctIndex = shuffled.shuffledCorrectIndex();
 
             if (selectedIndex == correctIndex) {
@@ -386,7 +406,7 @@ public class QuizApp {
                 System.out.println("  Explanation:");
                 System.out.println(q.getExplanation());
                 System.out.print("\n  Press Enter to continue...");
-                scanner.nextLine();
+                safeReadLine();
             }
 
         }
@@ -452,7 +472,11 @@ public class QuizApp {
         String maxLetter = toLetter(numChoices - 1);
         while (true) {
             System.out.print("  Your answer (A-" + maxLetter + "): ");
-            String raw = scanner.nextLine().trim().toUpperCase();
+            String line = safeReadLine();
+            if (line == null) {
+                return -1;
+            }
+            String raw = line.trim().toUpperCase();
             if (raw.length() == 1) {
                 int idx = raw.charAt(0) - 'A';
                 if (idx >= 0 && idx < numChoices) {
@@ -488,6 +512,14 @@ public class QuizApp {
         System.out.printf("  Category: %s%n", categoryLabel(q));
         System.out.println(SEPARATOR);
         System.out.println();
+    }
+
+    private String safeReadLine() {
+        try {
+            return scanner.nextLine();
+        } catch (NoSuchElementException | IllegalStateException e) {
+            return null;
+        }
     }
 
     private void printBanner() {
