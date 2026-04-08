@@ -35,10 +35,10 @@ public abstract class Question {
             if (java.nio.file.Files.exists(candidate)) {
                 return candidate.toString();
             }
-            var url = getClass().getClassLoader().getResource(getClass().getName().replace('.', '/') + ".class");
-            if (url != null) {
-                return url.toString();
-            }
+//            var url = getClass().getClassLoader().getResource(getClass().getName().replace('.', '/') + ".class");
+//            if (url != null) {
+//                return url.toString();
+//            }
         } catch (Exception ignored) {}
         return "";
     }

@@ -5,7 +5,7 @@ import gotham.asset.mgmt.multiple.choice.questions.Question;
 import java.util.List;
 import java.util.Set;
 
-public class U02 extends Question {
+public class U02 extends UniversalCodeQuestion {
     @Override
     public String getQuestionText() {
         return """
@@ -36,8 +36,4 @@ What is returned?""";
         return "== compares object identity; only value equality is true when using .equals/.equalsIgnoreCase or equivalent.";
     }
 
-    @Override
-    public Set<String> getApplicableLanguages() {
-        return Set.of("java", "dotnet", "scala");
-    }
 }

@@ -3,37 +3,40 @@ package gotham.asset.mgmt.multiple.choice.questions.debugging.universal;
 import gotham.asset.mgmt.multiple.choice.questions.Question;
 
 import java.util.List;
-import java.util.Set;
 
-public class U01 extends UniversalCodeQuestion {
+public class D02 extends Question {
+
     @Override
     public String getQuestionText() {
         return """
 Lines 1-5:
-1  int total = 26;
+1  int total = 9;
 2  int count = 2;
 3  double avg = total / count;
 4  return avg;
-What value is returned?""";
+What value is returned?
+""";
     }
 
     @Override
     public List<String> getChoices() {
         return List.of(
-                "13.0",
-                "13",
-                "13.0 after implicit widening",
-                "Compilation error: integer division assigned to double"
+                "4.0",
+                "4.5",
+                "0.0",
+                "Compilation error: must cast"
         );
     }
 
     @Override
     public int getCorrectAnswerIndex() {
-        return 1; // 13 due to integer division before widening
+        return 0;
     }
 
     @Override
     public String getExplanation() {
-        return "total/count is integer division (13) before widening to double; you must cast one operand to avoid truncation.";
+        return """
+Both operands are int so division truncates before widening to double; result is 4.0.
+""";
     }
 }

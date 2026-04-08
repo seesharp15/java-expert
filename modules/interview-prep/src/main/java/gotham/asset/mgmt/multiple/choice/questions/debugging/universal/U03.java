@@ -5,7 +5,7 @@ import gotham.asset.mgmt.multiple.choice.questions.Question;
 import java.util.List;
 import java.util.Set;
 
-public class U03 extends Question {
+public class U03 extends UniversalCodeQuestion {
     @Override
     public String getQuestionText() {
         return """
@@ -36,8 +36,4 @@ What is returned?""";
         return "32-bit integer addition overflows and wraps to a negative value; y becomes Integer.MIN_VALUE, so y < 0 is true.";
     }
 
-    @Override
-    public Set<String> getApplicableLanguages() {
-        return Set.of("java", "dotnet", "scala");
-    }
 }

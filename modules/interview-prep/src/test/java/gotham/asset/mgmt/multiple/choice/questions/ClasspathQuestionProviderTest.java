@@ -63,6 +63,7 @@ class ClasspathQuestionProviderTest {
                  //   break;
                 }
                 var sourcePath = q.getSourcePath();
+                if (sourcePath.isEmpty()) continue;
                 var pathUri = new URI(sourcePath);
                 var path = Paths.get(pathUri.toString());
  //               var parentDir = path.getParent();
