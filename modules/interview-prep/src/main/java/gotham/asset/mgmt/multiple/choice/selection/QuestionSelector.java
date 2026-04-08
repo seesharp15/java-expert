@@ -116,6 +116,9 @@ public class QuestionSelector {
         for (Question q : pool) {
             if (langFilter != null && !appliesTo(langFilter, q)) continue;
             String key = normalize(q.getQuestionText());
+            if (key.isEmpty()) {
+                key = q.getClass().getName();
+            }
             unique.putIfAbsent(key, q);
         }
         return new ArrayList<>(unique.values());

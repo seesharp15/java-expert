@@ -31,6 +31,22 @@ class QuestionSelectorTest {
         assertThat(categories).containsExactlyInAnyOrder("java", "SQL", "dotnet");
     }
 
+    @Test
+    void includesUniversalDebuggingQuestionOncePerRun() {
+        QuizIO io = new StubIO(List.of("2", "1")); // focus=debugging, subfocus=java
+        Menu menu = new Menu(io);
+        QuestionSelector selector = new QuestionSelector();
+        Question javaOnly = new gotham.asset.mgmt.multiple.choice.questions.debugging.java.TestDebugJavaQuestion();
+        Question universal = new gotham.asset.mgmt.multiple.choice.questions.debugging.universal.TestDebugUniversalQuestion();
+        List<Question> all = List.of(javaOnly, universal);
+
+        QuestionSelector.Selection sel = selector.select(all, io, menu);
+
+        assertThat(sel.questions()).hasSize(2);
+        assertThat(sel.questions()).extracting(Question::getQuestionText)
+                .containsExactlyInAnyOrder("Java bug", "Shared bug");
+    }
+
     private String topLevel(Question q) {
         String base = "gotham.asset.mgmt.multiple.choice.questions.";
         String pkg = q.getClass().getPackageName();
@@ -47,4 +63,5 @@ class QuestionSelectorTest {
         @Override public void println(String s) {}
         @Override public void clearScreen() {}
     }
+
 }
