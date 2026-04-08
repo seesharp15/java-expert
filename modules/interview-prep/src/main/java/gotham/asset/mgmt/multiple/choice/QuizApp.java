@@ -14,9 +14,16 @@ import java.util.stream.IntStream;
  */
 public class QuizApp {
 
-    private static final String SEPARATOR = "=".repeat(60);
-    private static final String THIN_SEPARATOR = "-".repeat(60);
+    private static final String SEPARATOR = "=".repeat(80);
+    private static final String THIN_SEPARATOR = "-".repeat(80);
     private static final String QUESTION_BASE_PACKAGE = "gotham.asset.mgmt.multiple.choice.questions";
+    private static final String CYAN = "\u001B[36m";
+    private static final String BLUE = "\u001B[34m";
+    private static final String GREEN = "\u001B[32m";
+    private static final String RED = "\u001B[31m";
+    private static final String YELLOW = "\u001B[33m";
+    private static final String DIM = "\u001B[2m";
+    private static final String RESET = "\u001B[0m";
 
     private record MissedQuestion(int displayNum, Question question, String userAnswer, String correctAnswer) {}
 
@@ -169,10 +176,11 @@ public class QuizApp {
     }
 
     private List<Question> pickCount(List<Question> pool) {
-        int count = promptCount(pool.size());
-        List<Question> copy = new ArrayList<>(pool);
-        Collections.shuffle(copy);
-        return new ArrayList<>(copy.subList(0, count));
+        // Deduplicate before counting to avoid user requesting more than unique set
+        List<Question> unique = new ArrayList<>(new LinkedHashSet<>(pool));
+        Collections.shuffle(unique);
+        int count = promptCount(unique.size());
+        return new ArrayList<>(unique.subList(0, count));
     }
 
     private List<Question> distributeEvenly(Collection<List<Question>> pools) {
@@ -279,7 +287,6 @@ public class QuizApp {
             return;
         }
 
-        Collections.shuffle(selected);
         int total = selected.size();
         int correct = 0;
 
@@ -291,7 +298,7 @@ public class QuizApp {
             ShuffledChoices shuffled = shuffleChoices(q);
 
             printQuestionHeader("TEST", i, total, correct, q);
-            System.out.println(q.getQuestionText());
+            System.out.println(DIM + q.getQuestionText() + RESET);
             printChoices(shuffled.displayChoices());
 
             int selectedIndex = readAnswerIndex(shuffled.displayChoices().size());
@@ -324,7 +331,7 @@ public class QuizApp {
         System.out.println(THIN_SEPARATOR);
 
         if (missed.isEmpty()) {
-            System.out.println("  Perfect score! Well done.");
+            System.out.println(GREEN + "  Perfect score! Well done." + RESET);
         } else {
             System.out.println("  Missed questions:");
             System.out.println();
@@ -363,7 +370,6 @@ public class QuizApp {
             return;
         }
 
-        Collections.shuffle(selected);
         int total = selected.size();
         int correct = 0;
 
@@ -373,7 +379,7 @@ public class QuizApp {
             ShuffledChoices shuffled = shuffleChoices(q);
 
             printQuestionHeader("STUDY", i, total, correct, q);
-            System.out.println(q.getQuestionText());
+            System.out.println(DIM + q.getQuestionText() + RESET);
             printChoices(shuffled.displayChoices());
 
             int selectedIndex = readAnswerIndex(shuffled.displayChoices().size());
@@ -385,7 +391,7 @@ public class QuizApp {
 
             if (selectedIndex == correctIndex) {
                 correct++;
-                System.out.println("\n  >>> Correct!");
+                System.out.println("\n  " + GREEN + ">>> Correct!" + RESET);
                 double pctSoFar = correct * 100.0 / (i + 1);
                 System.out.printf("  Running score: %d/%d correct so far (%.1f%%)%n", correct, i + 1, pctSoFar);
                 //System.out.printf("  Running score: %d/%d correct so far%n", correct, i + 1);
@@ -396,7 +402,7 @@ public class QuizApp {
 //                    System.out.println(q.getExplanation());
 //                }
             } else {
-                System.out.println("\n  >>> Incorrect.");
+                System.out.println("\n  " + RED + ">>> Incorrect." + RESET);
                 System.out.println("  The correct answer was: "
                         + toLetter(correctIndex) + ") "
                         + shuffled.displayChoices().get(correctIndex));
@@ -459,7 +465,7 @@ public class QuizApp {
 
     private void printChoices(List<String> choices) {
         for (int i = 0; i < choices.size(); i++) {
-            System.out.printf("    %s) %s%n", toLetter(i), choices.get(i));
+            System.out.printf("    %s%s)%s %s%n", YELLOW, toLetter(i), RESET, choices.get(i));
         }
         System.out.println();
     }
@@ -506,11 +512,11 @@ public class QuizApp {
     private void printQuestionHeader(String mode, int answeredSoFar, int total, int correctSoFar, Question q) {
         double accuracy = (answeredSoFar == 0) ? 0.0 : (correctSoFar * 100.0 / answeredSoFar);
         double progress = (total == 0) ? 0.0 : (answeredSoFar * 100.0 / total);
-        System.out.println(SEPARATOR);
-        System.out.printf("  %s MODE | Question %d of %d | Progress: %.1f%% | Correct: %d/%d (%.1f%%)%n",
-                mode, answeredSoFar + 1, total, progress, correctSoFar, answeredSoFar, accuracy);
-        System.out.printf("  Category: %s%n", categoryLabel(q));
-        System.out.println(SEPARATOR);
+        System.out.println(CYAN + SEPARATOR + RESET);
+        System.out.printf("%s  %s MODE%s | Question %d of %d | Progress: %.1f%% | Correct: %d/%d (%.1f%%)%n",
+                CYAN, mode, RESET, answeredSoFar + 1, total, progress, correctSoFar, answeredSoFar, accuracy);
+        System.out.printf("  Category: %s%s%s%n", BLUE, categoryLabel(q), RESET);
+        System.out.println(CYAN + SEPARATOR + RESET);
         System.out.println();
     }
 
