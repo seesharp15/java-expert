@@ -9,11 +9,11 @@ public class D07 extends Question {
     public String getQuestionText() {
         return """
 Async without await inside try/catch:
-1  try {
-2      DoSlowAsync(); // returns Task
-3  } catch (Exception ex) {
-4      Log(ex);
-5  }
+1|   try {
+2|       DoSlowAsync(); // returns Task
+3|   } catch (Exception ex) {
+4|       Log(ex);
+5|   }
 What happens to exceptions thrown inside DoSlowAsync?
 """;
     }
