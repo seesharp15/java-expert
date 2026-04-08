@@ -3,7 +3,7 @@ package gotham.asset.mgmt.multiple.choice;
 import gotham.asset.mgmt.multiple.choice.engine.QuizEngine;
 import gotham.asset.mgmt.multiple.choice.io.ConsoleIO;
 import gotham.asset.mgmt.multiple.choice.io.QuizIO;
-import gotham.asset.mgmt.multiple.choice.questions.ClassroomQuestionProvider;
+import gotham.asset.mgmt.multiple.choice.questions.ClasspathQuestionProvider;
 import gotham.asset.mgmt.multiple.choice.questions.QuestionProvider;
 import gotham.asset.mgmt.multiple.choice.repo.FileSessionRepository;
 import gotham.asset.mgmt.multiple.choice.repo.SessionRepository;
@@ -26,7 +26,7 @@ public class QuizApp {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         QuizIO io = new ConsoleIO(scanner);
-        QuestionProvider provider = new ClassroomQuestionProvider();
+        QuestionProvider provider = new ClasspathQuestionProvider();
         SessionRepository repo = new FileSessionRepository(SESSIONS_DIR);
         ReportExporter exporter = new DiskReportExporter(REPORT_DIR);
         Menu menu = new Menu(io);

@@ -7,7 +7,7 @@ import java.util.Comparator;
 import java.util.List;
 
 
-public class ClassroomQuestionProvider implements QuestionProvider {
+public class ClasspathQuestionProvider implements QuestionProvider {
     private static final String QUESTION_BASE_PACKAGE = "gotham.asset.mgmt.multiple.choice.questions";
 
     @Override

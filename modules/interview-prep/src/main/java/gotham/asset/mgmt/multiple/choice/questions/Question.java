@@ -16,6 +16,34 @@ public abstract class Question {
     public abstract String getExplanation();
 
     /**
+     * Languages (lowercase) this question applies to. Empty means all languages.
+     * Used mainly by debugging questions that are language-specific.
+     */
+    public Set<String> getApplicableLanguages() {
+        return Collections.emptySet();
+    }
+
+    /**
+     * Best-effort path to the source file for this question.
+     * Falls back to the compiled resource location if the source tree is unavailable.
+     */
+    public String getSourcePath() {
+        try {
+            String rel = getClass().getName().replace('.', '/') + ".java";
+            // repo layout: modules/interview-prep/src/main/java/...
+            var candidate = java.nio.file.Paths.get("modules", "interview-prep", "src", "main", "java", rel);
+            if (java.nio.file.Files.exists(candidate)) {
+                return candidate.toAbsolutePath().toString();
+            }
+            var url = getClass().getClassLoader().getResource(getClass().getName().replace('.', '/') + ".class");
+            if (url != null) {
+                return url.toString();
+            }
+        } catch (Exception ignored) {}
+        return "";
+    }
+
+    /**
      * If true, the last choice (e.g. "All of the above") stays pinned at the end
      * during randomization.
      */

@@ -146,7 +146,7 @@ public class QuizEngine {
                 io.println("  #" + (i + 1));
                 io.println("    Your answer:    " + letter(ans) + ") " + disp.get(ans));
                 io.println("    Correct answer: " + letter(correctIdx) + ") " + disp.get(correctIdx));
-                io.println();
+                io.println("");
             }
         }
     }

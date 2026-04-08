@@ -45,8 +45,18 @@ public class QuestionSelector {
             subs.values().forEach(pool::addAll);
         } else {
             pool.addAll(subs.getOrDefault(subfocus, List.of()));
+            if ("debugging".equalsIgnoreCase(focus)) {
+                for (var entry : subs.entrySet()) {
+                    if (entry.getKey().equals(subfocus)) continue;
+                    for (Question q : entry.getValue()) {
+                        if (appliesTo(subfocus, q)) {
+                            pool.add(q);
+                        }
+                    }
+                }
+            }
         }
-        pool = new ArrayList<>(new LinkedHashSet<>(pool));
+        pool = dedup(pool, subfocus.equals("all") ? null : subfocus);
         Collections.shuffle(pool);
         var count = promptCount(io, pool.size());
         return new Selection(pool.subList(0, count), focus, subfocus);
@@ -74,8 +84,7 @@ public class QuestionSelector {
             }
             idx++;
         }
-        Collections.shuffle(out);
-        return out;
+        return dedup(out, null);
     }
 
     private int promptCount(QuizIO io, int max) {
@@ -100,5 +109,38 @@ public class QuestionSelector {
         if (remainder.startsWith(".")) remainder = remainder.substring(1);
         if (remainder.isEmpty()) return new String[]{"core"};
         return remainder.split("\\.");
+    }
+
+    private List<Question> dedup(List<Question> pool, String langFilter) {
+        LinkedHashMap<String, Question> unique = new LinkedHashMap<>();
+        for (Question q : pool) {
+            if (langFilter != null && !appliesTo(langFilter, q)) continue;
+            String key = normalize(q.getQuestionText());
+            unique.putIfAbsent(key, q);
+        }
+        return new ArrayList<>(unique.values());
+    }
+
+    private boolean appliesTo(String language, Question q) {
+        if (language == null || language.isBlank()) return true;
+        var langs = q.getApplicableLanguages();
+        if (langs == null || langs.isEmpty()) {
+            String pkgLang = packageLanguage(q);
+            if (pkgLang.isEmpty()) return true; // non-debugging question
+            return pkgLang.equalsIgnoreCase(language);
+        }
+        return langs.stream().anyMatch(l -> l.equalsIgnoreCase(language));
+    }
+
+    private String normalize(String text) {
+        return text == null ? "" : text.replaceAll("\\s+", " ").trim().toLowerCase();
+    }
+
+    private String packageLanguage(Question q) {
+        String[] parts = packageSegments(q);
+        if (parts.length >= 2 && parts[0].equalsIgnoreCase("debugging")) {
+            return parts[1];
+        }
+        return "";
     }
 }
