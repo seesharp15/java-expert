@@ -1,10 +1,10 @@
 package gotham.asset.mgmt.multiple.choice.questions.debugging.universal;
 
-import gotham.asset.mgmt.multiple.choice.questions.Question;
+
 
 import java.util.List;
 
-public class D12 extends Question {
+public class U18 extends UniversalCodeQuestion {
 
     @Override
     public String getQuestionText() {
@@ -12,7 +12,7 @@ public class D12 extends Question {
 Concurrent increment without synchronization:
 1  static int counter = 0;
 2  void run() {
-3      for (int i = 0; i < 11243; i++) counter++;
+3      for (int i = 0; i < 13277; i++) counter++;
 4  }
 5  // 6 threads start run() in parallel
 What is the likely final value of counter?

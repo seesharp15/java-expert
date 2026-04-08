@@ -10,8 +10,7 @@ public class D08 extends Question {
         return """
 Deferred LINQ over disposed stream:
 1  using var reader = new StreamReader("data.txt");
-2  var query = reader.ReadToEnd().Split("
-").Where(l => l.StartsWith("X"));
+2  var query = reader.ReadToEnd().Split("\\n").Where(l => l.StartsWith("X"));
 3  // reader disposed here
 What happens when query is enumerated later?
 """;

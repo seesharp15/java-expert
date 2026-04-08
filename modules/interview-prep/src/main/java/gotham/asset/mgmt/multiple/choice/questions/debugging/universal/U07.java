@@ -1,10 +1,10 @@
 package gotham.asset.mgmt.multiple.choice.questions.debugging.universal;
 
-import gotham.asset.mgmt.multiple.choice.questions.Question;
+
 
 import java.util.List;
 
-public class D01 extends Question {
+public class U07 extends UniversalCodeQuestion {
 
     @Override
     public String getQuestionText() {

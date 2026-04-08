@@ -27,3 +27,6 @@ out/
 
 # Generated
 bin/
+
+# Project 
+testReports/

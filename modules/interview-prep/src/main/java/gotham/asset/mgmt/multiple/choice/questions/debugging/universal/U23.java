@@ -1,30 +1,30 @@
 package gotham.asset.mgmt.multiple.choice.questions.debugging.universal;
 
-import gotham.asset.mgmt.multiple.choice.questions.Question;
+
 
 import java.util.List;
 
-public class D45 extends Question {
+public class U23 extends UniversalCodeQuestion {
 
     @Override
     public String getQuestionText() {
         return """
-Overflow risk:
-1  int a = 94000;
-2  int b = 80800;
-3  int c = a * b;
-4  return c;
-What is returned?
+Lines 1-5:
+1  int total = 99;
+2  int count = 2;
+3  double avg = total / count;
+4  return avg;
+What value is returned?
 """;
     }
 
     @Override
     public List<String> getChoices() {
         return List.of(
-                "-994734592",
-                "7595200000",
-                "Throws overflow exception",
-                "Compilation error"
+                "49.0",
+                "49.5",
+                "0.0",
+                "Compilation error: must cast"
         );
     }
 
@@ -36,7 +36,7 @@ What is returned?
     @Override
     public String getExplanation() {
         return """
-Multiplication overflows 32-bit int; result wraps to two's complement value.
+Both operands are int so division truncates before widening to double; result is 49.0.
 """;
     }
 }

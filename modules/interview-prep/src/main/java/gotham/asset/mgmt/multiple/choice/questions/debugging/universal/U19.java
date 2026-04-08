@@ -1,17 +1,17 @@
 package gotham.asset.mgmt.multiple.choice.questions.debugging.universal;
 
-import gotham.asset.mgmt.multiple.choice.questions.Question;
+
 
 import java.util.List;
 
-public class D09 extends Question {
+public class U19 extends UniversalCodeQuestion {
 
     @Override
     public String getQuestionText() {
         return """
 Overflow risk:
-1  int a = 58000;
-2  int b = 55600;
+1  int a = 85000;
+2  int b = 74500;
 3  int c = a * b;
 4  return c;
 What is returned?
@@ -21,8 +21,8 @@ What is returned?
     @Override
     public List<String> getChoices() {
         return List.of(
-                "-1070167296",
-                "3224800000",
+                "2037532704",
+                "6332500000",
                 "Throws overflow exception",
                 "Compilation error"
         );

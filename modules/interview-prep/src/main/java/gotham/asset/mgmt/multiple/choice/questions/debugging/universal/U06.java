@@ -1,7 +1,5 @@
 package gotham.asset.mgmt.multiple.choice.questions.debugging.universal;
 
-import gotham.asset.mgmt.multiple.choice.questions.Question;
-
 import java.util.List;
 
 public class U06 extends UniversalCodeQuestion {
