@@ -3,6 +3,7 @@
 build/
 **/build/
 !gradle/wrapper/**
+.gradle-user/
 
 # IntelliJ / IDEA
 .idea/

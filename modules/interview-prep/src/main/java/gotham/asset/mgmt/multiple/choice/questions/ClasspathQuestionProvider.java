@@ -56,6 +56,7 @@ public class ClasspathQuestionProvider implements QuestionProvider {
                         found.add((Question) clazz.getDeclaredConstructor().newInstance());
                     }
                 } catch (Exception ignored) {
+                    System.out.println(file.getName());
                     // skip classes that can't be instantiated
                 }
             }

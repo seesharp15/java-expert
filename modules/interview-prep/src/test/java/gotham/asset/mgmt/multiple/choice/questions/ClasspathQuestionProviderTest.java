@@ -51,25 +51,35 @@ class ClasspathQuestionProviderTest {
             var builder = new StringBuilder();
             var qs = dupe.getValue();
             var parent = qs.getFirst();
-            System.out.printf("### Parent: %s%n", parent.getSourcePath());
+            //System.out.printf("### Parent: %s%n", parent.getSourcePath());
 
-            for (int i = 1; i < qs.size(); i++) {
-                var sourcePath = qs.get(i).getSourcePath();
+            var allSame = true;
+            var pkg = parent.packageName;
+
+            for (int i = 0; i < qs.size(); i++) {
+                var q = qs.get(i);
+                if (!q.packageName.equals(pkg)) {
+                    allSame = false;
+                 //   break;
+                }
+                var sourcePath = q.getSourcePath();
                 var pathUri = new URI(sourcePath);
-                var path = Paths.get(pathUri);
-                var parentDir = path.getParent();
-                var dupeDir = parentDir.resolve("dupes");
+                var path = Paths.get(pathUri.toString());
+ //               var parentDir = path.getParent();
+                var dupeDir = Paths.get("/Users/brianbarrecchia/repos/java-expert/modules/interview-prep/src/main/java/gotham/asset/mgmt/multiple/choice/temp/multiplechoicedupes")
+                        .resolve(q.packageName);
+
                 Files.createDirectories(dupeDir);
 
-                var command = "mv " + path + "  " + dupeDir;
+                var command =  "mv " + path + "  " + dupeDir;
 
                 builder.append(command);
                 builder.append("\n");
 
             }
 
-
-            System.out.println(builder);
+            //if (allSame)
+                System.out.println(builder);
 
 //            builder.deleteCharAt(builder.length()-1);
 //            System.out.printf("%s%n%s%n%n", builder, qs.getFirst().getQuestionText());

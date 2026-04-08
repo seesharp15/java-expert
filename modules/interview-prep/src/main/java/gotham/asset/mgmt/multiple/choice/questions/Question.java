@@ -31,9 +31,9 @@ public abstract class Question {
         try {
             String rel = getClass().getName().replace('.', '/') + ".java";
             // repo layout: modules/interview-prep/src/main/java/...
-            var candidate = java.nio.file.Paths.get("modules", "interview-prep", "src", "main", "java", rel);
+            var candidate = java.nio.file.Paths.get( "src", "main", "java", rel).toAbsolutePath();
             if (java.nio.file.Files.exists(candidate)) {
-                return candidate.toAbsolutePath().toString();
+                return candidate.toString();
             }
             var url = getClass().getClassLoader().getResource(getClass().getName().replace('.', '/') + ".class");
             if (url != null) {
